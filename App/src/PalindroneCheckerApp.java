@@ -1,14 +1,23 @@
 public class PalindroneCheckerApp {
     public static void main(String[] args){
-        String Input = "reviver";
-        String Rev = "";
-        for(int i = (Input.length()-1);i>=0;i--){
-            Rev += Input.charAt(i);
+        String input = "radar";
+        char[] chars = input.toCharArray();
+        int start = 0;
+        int end = chars.length - 1;
+        boolean isPalindrome = true;
+        while (start < end) {
+
+            if (chars[start] != chars[end]) {
+                isPalindrome = false;
+                break;
+            }
+            start++;
+            end--;
         }
-        if(Rev.equals(Input)){
+        if (isPalindrome) {
             System.out.println("The String is a palindrome.");
-        }else {
-            System.out.println("The String is not a palindrome");
+        } else {
+            System.out.println("The String is not a palindrome.");
         }
     }
 }
