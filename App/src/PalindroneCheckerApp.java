@@ -1,68 +1,86 @@
-import java.util.Stack;
+import java.util.*;
 
-// Strategy Interface
 interface PalindromeStrategy {
     boolean check(String input);
 }
 
-// Concrete Strategy: Stack-Based Implementation
+// Strategy 1: Stack
 class StackStrategy implements PalindromeStrategy {
-
-    @Override
     public boolean check(String input) {
-        if (input == null) {
-            return false;
-        }
-
-        // Normalize (ignore case and spaces)
         input = input.replaceAll("\\s+", "").toLowerCase();
-
-        // Create a stack to store characters
         Stack<Character> stack = new Stack<>();
-
-        // Push each character onto the stack
         for (char c : input.toCharArray()) {
             stack.push(c);
         }
-
-        // Compare characters by popping from the stack
         for (char c : input.toCharArray()) {
             if (c != stack.pop()) {
                 return false;
             }
         }
-
         return true;
     }
 }
 
-// Context Class
-class PalindromeContext {
-    private PalindromeStrategy strategy;
+// Strategy 2: Two-Pointer
+class TwoPointerStrategy implements PalindromeStrategy {
+    public boolean check(String input) {
+        input = input.replaceAll("\\s+", "").toLowerCase();
+        int left = 0, right = input.length() - 1;
 
-    public PalindromeContext(PalindromeStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public boolean execute(String input) {
-        return strategy.check(input);
+        while (left < right) {
+            if (input.charAt(left) != input.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
     }
 }
 
-// Application Class
-public class PalindroneCheckerApp {
+// Strategy 3: Deque
+class DequeStrategy implements PalindromeStrategy {
+    public boolean check(String input) {
+        input = input.replaceAll("\\s+", "").toLowerCase();
+        Deque<Character> deque = new ArrayDeque<>();
+
+        for (char c : input.toCharArray()) {
+            deque.addLast(c);
+        }
+
+        while (deque.size() > 1) {
+            if (!deque.removeFirst().equals(deque.removeLast())) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+public class UseCase13PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        PalindromeStrategy strategy = new StackStrategy();
-        PalindromeContext context = new PalindromeContext(strategy);
+        String input = "A man a plan a canal Panama";
 
-        String input = "Level";
+        List<PalindromeStrategy> strategies = Arrays.asList(
+                new StackStrategy(),
+                new TwoPointerStrategy(),
+                new DequeStrategy()
+        );
 
-        if (context.execute(input)) {
-            System.out.println("\"" + input + "\" is a palindrome.");
-        } else {
-            System.out.println("\"" + input + "\" is NOT a palindrome.");
+        for (PalindromeStrategy strategy : strategies) {
+
+            long startTime = System.nanoTime();
+
+            boolean result = strategy.check(input);
+
+            long endTime = System.nanoTime();
+            long duration = endTime - startTime;
+
+            System.out.println(strategy.getClass().getSimpleName()
+                    + " -> Result: " + result
+                    + " | Time: " + duration + " ns");
         }
     }
 }
