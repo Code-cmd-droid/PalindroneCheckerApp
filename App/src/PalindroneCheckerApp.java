@@ -1,18 +1,14 @@
 public class PalindroneCheckerApp {
     public static void main(String[] args){
         String Input = "reviver";
-        boolean isPalindrone = true;
-        for(int i = 0; i < Input.length()/2; i++){
-            if(Input.charAt(i) != Input.charAt(Input.length()-1-i)){
-                isPalindrone = false;
-                break;
-            }
-
+        String Rev = "";
+        for(int i = (Input.length()-1);i>=0;i--){
+            Rev += Input.charAt(i);
         }
-        if(isPalindrone=false){
-            System.out.println("The Given String is not a palindrome.");
-        }else{
-            System.out.println("The given string is a palindrome.");
+        if(Rev.equals(Input)){
+            System.out.println("The String is a palindrome.");
+        }else {
+            System.out.println("The String is not a palindrome");
         }
     }
 }
