@@ -1,26 +1,41 @@
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class PalindroneCheckerApp {
-    public static void main(String[] args){
-        String input = "civic";
-        Queue<Character> queue = new LinkedList<>();
-        Stack<Character> stack = new Stack<>();
-        for (char c : input.toCharArray()) {
-            queue.add(c);
-            stack.push(c);
+
+    public static boolean isPalindrome(String input) {
+        if (input == null) {
+            return false;
         }
-        boolean isPalindrome = true;
-        while (!queue.isEmpty()) {
-            if (!queue.remove().equals(stack.pop())) {
-                isPalindrome = false;
-                break;
+
+        // Normalize input (remove non-alphanumeric and convert to lowercase)
+        String cleaned = input.replaceAll("[^a-zA-Z0-9]", "")
+                .toLowerCase();
+
+        Deque<Character> deque = new ArrayDeque<>();
+
+        // Add characters to deque
+        for (char c : cleaned.toCharArray()) {
+            deque.addLast(c);
+        }
+
+        // Compare front and back
+        while (deque.size() > 1) {
+            if (!deque.removeFirst().equals(deque.removeLast())) {
+                return false;
             }
         }
-        if (isPalindrome) {
-            System.out.println("The String is a palindrome.");
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String input = "A man, a plan, a canal: Panama";
+
+        if (isPalindrome(input)) {
+            System.out.println("\"" + input + "\" is a palindrome.");
         } else {
-            System.out.println("The String is not a palindrome.");
+            System.out.println("\"" + input + "\" is NOT a palindrome.");
         }
     }
 }
