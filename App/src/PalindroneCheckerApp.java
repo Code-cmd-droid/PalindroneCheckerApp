@@ -1,36 +1,38 @@
-import java.util.LinkedList;
-
 public class PalindroneCheckerApp {
 
-    public static void main(String[] args) {
-
-        // Define the input string
-        String input = "Level";
+    // Recursive method
+    public static boolean isPalindrome(String str) {
+        if (str == null) {
+            return false;
+        }
 
         // Normalize input (remove non-alphanumeric and convert to lowercase)
-        String cleaned = input.replaceAll("[^a-zA-Z0-9]", "")
+        str = str.replaceAll("[^a-zA-Z0-9]", "")
                 .toLowerCase();
 
-        // Create a LinkedList to store characters
-        LinkedList<Character> list = new LinkedList<>();
+        return checkRecursive(str, 0, str.length() - 1);
+    }
 
-        // Add each character to the LinkedList
-        for (char c : cleaned.toCharArray()) {
-            list.add(c);
+    // Helper recursive function
+    private static boolean checkRecursive(String str, int left, int right) {
+        // Base case: if pointers cross or meet
+        if (left >= right) {
+            return true;
         }
 
-        // Flag to track palindrome state
-        boolean isPalindrome = true;
-
-        // Compare until only one or zero elements remain
-        while (list.size() > 1) {
-            if (!list.removeFirst().equals(list.removeLast())) {
-                isPalindrome = false;
-                break;
-            }
+        // If characters don't match
+        if (str.charAt(left) != str.charAt(right)) {
+            return false;
         }
 
-        if (isPalindrome) {
+        // Recursive call moving inward
+        return checkRecursive(str, left + 1, right - 1);
+    }
+
+    public static void main(String[] args) {
+        String input = "Racecar";
+
+        if (isPalindrome(input)) {
             System.out.println("\"" + input + "\" is a palindrome.");
         } else {
             System.out.println("\"" + input + "\" is NOT a palindrome.");
