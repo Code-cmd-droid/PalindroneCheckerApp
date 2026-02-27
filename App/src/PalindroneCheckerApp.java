@@ -1,38 +1,28 @@
 public class PalindroneCheckerApp {
 
-    // Recursive method
-    public static boolean isPalindrome(String str) {
-        if (str == null) {
-            return false;
-        }
+    public static void main(String[] args) {
 
-        // Normalize input (remove non-alphanumeric and convert to lowercase)
-        str = str.replaceAll("[^a-zA-Z0-9]", "")
+        String input = "Never Odd Or Even";
+
+        // Remove spaces and convert to lowercase
+        String normalized = input.replaceAll("\\s+", "")
                 .toLowerCase();
 
-        return checkRecursive(str, 0, str.length() - 1);
-    }
+        boolean isPalindrome = true;
 
-    // Helper recursive function
-    private static boolean checkRecursive(String str, int left, int right) {
-        // Base case: if pointers cross or meet
-        if (left >= right) {
-            return true;
+        // Compare characters from both ends
+        for (int i = 0; i < normalized.length() / 2; i++) {
+
+            // Compare symmetric characters
+            if (normalized.charAt(i) !=
+                    normalized.charAt(normalized.length() - 1 - i)) {
+
+                isPalindrome = false;
+                break;
+            }
         }
 
-        // If characters don't match
-        if (str.charAt(left) != str.charAt(right)) {
-            return false;
-        }
-
-        // Recursive call moving inward
-        return checkRecursive(str, left + 1, right - 1);
-    }
-
-    public static void main(String[] args) {
-        String input = "Racecar";
-
-        if (isPalindrome(input)) {
+        if (isPalindrome) {
             System.out.println("\"" + input + "\" is a palindrome.");
         } else {
             System.out.println("\"" + input + "\" is NOT a palindrome.");
