@@ -1,2 +1,2 @@
 # PalindroneCheckerApp
-// Uc7 -added
+// Uc8-added

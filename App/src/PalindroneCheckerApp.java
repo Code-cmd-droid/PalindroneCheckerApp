@@ -1,38 +1,36 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.LinkedList;
 
 public class PalindroneCheckerApp {
 
-    public static boolean isPalindrome(String input) {
-        if (input == null) {
-            return false;
-        }
+    public static void main(String[] args) {
+
+        // Define the input string
+        String input = "Level";
 
         // Normalize input (remove non-alphanumeric and convert to lowercase)
         String cleaned = input.replaceAll("[^a-zA-Z0-9]", "")
                 .toLowerCase();
 
-        Deque<Character> deque = new ArrayDeque<>();
+        // Create a LinkedList to store characters
+        LinkedList<Character> list = new LinkedList<>();
 
-        // Add characters to deque
+        // Add each character to the LinkedList
         for (char c : cleaned.toCharArray()) {
-            deque.addLast(c);
+            list.add(c);
         }
 
-        // Compare front and back
-        while (deque.size() > 1) {
-            if (!deque.removeFirst().equals(deque.removeLast())) {
-                return false;
+        // Flag to track palindrome state
+        boolean isPalindrome = true;
+
+        // Compare until only one or zero elements remain
+        while (list.size() > 1) {
+            if (!list.removeFirst().equals(list.removeLast())) {
+                isPalindrome = false;
+                break;
             }
         }
 
-        return true;
-    }
-
-    public static void main(String[] args) {
-        String input = "A man, a plan, a canal: Panama";
-
-        if (isPalindrome(input)) {
+        if (isPalindrome) {
             System.out.println("\"" + input + "\" is a palindrome.");
         } else {
             System.out.println("\"" + input + "\" is NOT a palindrome.");
